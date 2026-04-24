@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Вхід{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow-sm">
+
+        <div class="card-header text-center bg-dark text-white">
+            <h4 class="mb-0">Вхід у систему</h4>
+        </div>
+
+        <div class="card-body p-4">
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Невірний логін або пароль
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label class="form-label">Ім'я користувача</label>
+                    {{ form.username }}
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">Пароль</label>
+                    {{ form.password }}
+                </div>
+
+                <!-- Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        Увійти
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register link -->
+            <div class="text-center mt-4">
+                <small>
+                    Ще немає акаунта?
+                    <a href="{% url 'register' %}" class="text-decoration-none">
+                        Зареєструватися
+                    </a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

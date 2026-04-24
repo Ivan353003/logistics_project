@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Реєстрація{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow-sm">
+
+        <div class="card-header text-center bg-dark text-white">
+            <h4 class="mb-0">Створити акаунт</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="mb-3">
+                    <label class="form-label">Ім'я користувача</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small">
+                            {{ form.username.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="text-danger small">
+                            {{ form.email.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">Пароль</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="text-danger small">
+                            {{ form.password1.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label class="form-label">Підтвердження пароля</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="text-danger small">
+                            {{ form.password2.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        Зареєструватися
+                    </button>
+                </div>
+            </form>
+
+            <!-- Login link -->
+            <div class="text-center mt-4">
+                <small>
+                    Вже маєте акаунт?
+                    <a href="{% url 'login' %}" class="text-decoration-none">Увійти</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

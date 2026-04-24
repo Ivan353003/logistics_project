@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Локація{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">{{ location.name }}</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Адреса:</strong> {{ location.address|default:"Не вказано" }}</p>
+        <p><strong>Контактна особа:</strong> {{ location.contact_person|default:"Не вказано" }}</p>
+        <p><strong>Телефон:</strong> {{ location.phone|default:"Не вказано" }}</p>
+        <p><strong>Графік роботи:</strong> {{ location.working_hours|default:"Не вказано" }}</p>
+
+        <a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+    </div>
+</div>
+{% endblock %}

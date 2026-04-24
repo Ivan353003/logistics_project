@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(204, 199, 199, 0.97);
+}
+
+.container {
+    width: 80%;
+    margin: 70px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.note-title {
+    text-align: center;
+}
+
+.notes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.note-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+.note-card h2 {
+    margin-top: 0;
+    color: #222;
+}
+
+.note-card p {
+    color: #555;
+}

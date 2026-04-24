@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Booking {{ booking.booking_number }}</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Vessel:</strong> {{ booking.vessel_name }}</p>
+            <p><strong>Voyage:</strong> {{ booking.voyage }}</p>
+            <p><strong>POL:</strong> {{ booking.pol }}</p>
+            <p><strong>POD:</strong> {{ booking.pod }}</p>
+            <p><strong>ETD:</strong> {{ booking.etd }}</p>
+            <p><strong>ETA:</strong> {{ booking.eta }}</p>
+            <p><strong>Free time until:</strong> {{ booking.free_time_until }}</p>
+            <p><strong>Forwarder:</strong> {{ booking.forwarder.username }}</p>
+            <p><strong>Shipper:</strong> {{ booking.shipper }}</p>
+            <p><strong>Consignee:</strong> {{ booking.consignee }}</p>
+            <p><strong>Notify party:</strong> {{ booking.notify_party }}</p>
+            <p><strong>Cargo description:</strong> {{ booking.cargo_description }}</p>
+            <p><strong>Remarks:</strong> {{ booking.remarks }}</p>
+
+            <a href="{% url 'booking_update' booking.pk %}" class="btn btn-warning">Edit booking</a>
+            <a href="{% url 'booking_list' %}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+
+    <h2>Containers</h2>
+
+    {% if user.is_staff %}
+        <a href="{% url 'container_create' booking.pk %}" class="btn btn-primary mb-3">Add container</a>
+    {% endif %}
+
+    {% if containers %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Container Number</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Cargo Weight</th>
+                    <th>Tare Weight</th>
+                    <th>Gross Weight</th>
+                    <th>PayLoad</th>
+                    <th>Free Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for container in containers %}
+                    <tr class="{% if container.is_overdue %}table-danger{% endif %}">
+                        <td>{{ container.container_number }}</td>
+                        <td>{{ container.container_type }}</td>
+                        <td>{{ container.status }}</td>
+                        <td>
+                            {% if container.current_location %}
+                                <a href="{% url 'location_detail' container.current_location.pk %}">
+                                    {{ container.current_location.name }}
+                                </a>
+                            {% else %}
+                                Не вказано
+                            {% endif %}
+                        </td>
+                        <td>{{ container.cargo_weight }}</td>
+                        <td>{{ container.tare_weight }}</td>
+                        <td>{{ container.gross_weight }}</td>
+                        <td>{{ container.payload }}</td>
+                        <td>
+                            {{ booking.free_time_until }}
+                            {% if container.is_overdue %}
+                                <span class="badge bg-danger ms-1">Overdue</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'container_update' container.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{% url 'container_damage_photo_create' container.pk %}" class="btn btn-sm btn-outline-danger">Add damage photo</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No containers in this booking.</p>
+    {% endif %}
+
+    <h3 class="mt-4">Damage photos</h3>
+
+    {% for container in containers %}
+        {% if container.damage_photos.all %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>{{ container.container_number }}</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for photo in container.damage_photos.all %}
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100">
+                                    <a href="{{ photo.image.url }}" target="_blank">
+                                        <img src="{{ photo.image.url }}" class="card-img-top" alt="Damage photo">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class="card-text">{{ photo.description }}</p>
+                                        <small class="text-muted">{{ photo.uploaded_at }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

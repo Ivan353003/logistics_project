@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Total containers</h5>
+                <p class="display-6 mb-0">{{ total_containers }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm border-danger">
+            <div class="card-body">
+                <h5 class="card-title">Overdue Containers</h5>
+                <p class="display-6 text-danger mb-0">{{ overdue_containers }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Containers by Status</h5>
+                <ul class="list-group list-group-flush">
+                    {% for item in containers_by_status %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ item.status }}</span>
+                            <span class="badge bg-primary rounded-pill">{{ item.total }}</span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Немає даних</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Containers by Location</h5>
+                <ul class="list-group list-group-flush">
+                    {% for item in containers_by_location %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ item.current_location__name|default:"Не вказано" }}</span>
+                            <span class="badge bg-secondary rounded-pill">{{ item.total }}</span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Немає даних</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

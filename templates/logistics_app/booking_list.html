@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Bookings</h1>
+
+    {% if user.is_staff %}
+        <a href="{% url 'booking_create' %}" class="btn btn-primary mb-3">Create booking</a>
+    {% endif %}
+
+    {% if bookings %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Booking Number</th>
+                    <th>Forwarder</th>
+                    <th>Vessel</th>
+                    <th>Voyage</th>
+                    <th>POL</th>
+                    <th>POD</th>
+                    <th>Free Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.booking_number }}</td>
+                        <td>{{ booking.forwarder.username }}</td>
+                        <td>{{ booking.vessel_name }}</td>
+                        <td>{{ booking.voyage }}</td>
+                        <td>{{ booking.pol }}</td>
+                        <td>{{ booking.pod }}</td>
+                        <td>{{ booking.free_time_until }}</td>
+                        <td>
+                            <a href="{% url 'booking_detail' booking.pk %}" class="btn btn-sm btn-info">Details</a>
+                            <a href="{% url 'booking_update' booking.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
